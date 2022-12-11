@@ -15,6 +15,6 @@ public abstract class Player {
     return symbol;
   }
 
-  public abstract Point waitForCellSelection(Board board);
+  public abstract Point getNextCellSelection(Board board);
 
 }

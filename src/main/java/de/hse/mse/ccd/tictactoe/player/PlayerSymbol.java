@@ -2,8 +2,7 @@ package de.hse.mse.ccd.tictactoe.player;
 
 public enum PlayerSymbol {
   X("X"),
-  O("O"),
-  NONE(" ");
+  O("O");
 
   public final String label;
 

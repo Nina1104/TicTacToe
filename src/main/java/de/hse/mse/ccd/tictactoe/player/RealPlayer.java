@@ -1,53 +1,57 @@
 package de.hse.mse.ccd.tictactoe.player;
 
 import de.hse.mse.ccd.tictactoe.board.Board;
-import java.awt.Point;
+
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RealPlayer extends Player {
+
+  private static final Pattern USER_INPUT_PATTERN = Pattern.compile("([0-9]),([0-9])");
+  private BufferedReader systemInReader;
 
   public RealPlayer(PlayerSymbol symbol) {
     super(symbol);
   }
 
   @Override
-  public Point waitForCellSelection(Board board) {
-    System.out.print(
-        "Spieler " + symbol + " ist dran: Wo möchtest du dein " + symbol + " setzen? ({x},{y}) ");
-    String userInput = waitForUserInput();
-    if (!isUserInputInValidFormat(userInput)) {
+  public Point getNextCellSelection(Board board) {
+    System.out.print("Spieler " + this.symbol + " ist dran: Wo möchtest du dein " + this.symbol
+        + " setzen? ({x},{y}) ");
+    String userInput = this.readUserInput();
+    if (!this.isUserInputValid(userInput)) {
       System.out.println("Bitte gib das Feld in diesem Format an: ({x},{y})");
-      return waitForCellSelection(board);
+      return this.getNextCellSelection(board);
     }
-    Point point = parsePointFromUserInput(userInput);
-    if (board.isCellNotSelectable(point)) {
+
+    Point point = this.parsePoint(userInput);
+    if (!board.isCellSelectable(point)) {
       System.out.println("Das Feld kannst du nicht auswählen.");
-      return waitForCellSelection(board);
+      return this.getNextCellSelection(board);
     }
     return point;
   }
 
-  private Point parsePointFromUserInput(String userInput) {
-    String[] split = userInput.split(",");
+  private Point parsePoint(String input) {
+    String[] split = input.split(",");
     int x = Integer.parseInt(split[0]);
     int y = Integer.parseInt(split[1]);
     return new Point(x, y);
   }
 
-  private boolean isUserInputInValidFormat(String userInput) {
-    Pattern pattern = Pattern.compile("([0-9]),([0-9])");
-    Matcher matcher = pattern.matcher(userInput);
-    return matcher.find();
+  private boolean isUserInputValid(String userInput) {
+    return USER_INPUT_PATTERN.matcher(userInput).find();
   }
 
-  private String waitForUserInput() {
-    BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+  private String readUserInput() {
+    if (this.systemInReader == null) {
+      this.systemInReader = new BufferedReader(new InputStreamReader(System.in));
+    }
     try {
-      return buffer.readLine();
+      return this.systemInReader.readLine();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

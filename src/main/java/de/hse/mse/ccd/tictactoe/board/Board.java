@@ -6,67 +6,57 @@ import java.awt.Point;
 public class Board {
 
   private final int size;
-  private PlayerSymbol[][] board;
-  private final WinChecker winChecker = new WinChecker();
+  private final PlayerSymbol[][] board;
 
   public Board(int size) {
     this.size = size;
+    this.board = new PlayerSymbol[size][size];
   }
 
   public int getSize() {
-    return size;
+    return this.size;
   }
 
-  public void initialize() {
-    board = new PlayerSymbol[size][size];
-    for (int x = 0; x < size; x++) {
-      for (int y = 0; y < size; y++) {
-        board[x][y] = PlayerSymbol.NONE;
-      }
-    }
+  public PlayerSymbol[][] getBoard() {
+    return board;
   }
 
   public void selectCell(PlayerSymbol player, Point position) {
-    if (isCellNotSelectable(position)) {
+    if (!this.isCellSelectable(position)) {
       throw new IllegalArgumentException("Diese Zelle ist nicht auswählbar");
     }
-    board[position.x][position.y] = player;
+    this.board[position.x][position.y] = player;
   }
 
-  public boolean hasPlayerWon(PlayerSymbol player) {
-    return winChecker.hasPlayerWon(player, board);
-  }
-
-  public int getEmptyCellCount() {
-    int count = 0;
-    for (int x = 0; x < size; x++) {
-      for (int y = 0; y < size; y++) {
-        if (board[x][y] == PlayerSymbol.NONE) {
-          count++;
+  public boolean hasEmptyCells() {
+    for (int x = 0; x < this.size; x++) {
+      for (int y = 0; y < this.size; y++) {
+        if (this.board[x][y] == null) {
+          return true;
         }
       }
     }
-    return count;
+    return false;
   }
 
-  public boolean isCellNotSelectable(Point point) {
-    if (point.x >= size || point.x < 0 || point.y >= size || point.y < 0) {
-      return true;
+  public boolean isCellSelectable(Point point) {
+    if (point.x >= this.size && point.x < 0 && point.y >= this.size && point.y < 0) {
+      return false;
     }
-    return board[point.x][point.y] != PlayerSymbol.NONE;
+    return this.board[point.x][point.y] == null;
   }
 
   public void printBoard() {
     System.out.println();
     System.out.print("   ");
-    for (int y = 0; y < size; y++) {
+    for (int y = 0; y < this.size; y++) {
       System.out.print(y + " ");
     }
     System.out.println();
-    for (int x = 0; x < size; x++) {
+    for (int x = 0; x < this.size; x++) {
       System.out.print(x + " |");
-      for (int y = 0; y < size; y++) {
-        System.out.print(board[x][y].label + "|");
+      for (int y = 0; y < this.size; y++) {
+        System.out.print((this.board[x][y] == null ? " " : this.board[x][y].label) + "|");
       }
       System.out.println();
     }
