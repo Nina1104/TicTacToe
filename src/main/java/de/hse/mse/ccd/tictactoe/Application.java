@@ -12,6 +12,7 @@ public class Application {
   private static final int BOARD_SIZE = 3;
 
   public static void main(String[] args) {
+    System.out.println("Starting TicTacToe...");
     TicTacToeGame ticTacToe = new TicTacToeGame(BOARD_SIZE, new RealPlayer(PLAYER_A_SYMBOL),
         new ComPlayer(PLAYER_B_SYMBOL));
     ticTacToe.play();
