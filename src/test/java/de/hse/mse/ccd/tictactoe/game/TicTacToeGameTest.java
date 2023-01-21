@@ -2,6 +2,7 @@ package de.hse.mse.ccd.tictactoe.game;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,24 +14,17 @@ import de.hse.mse.ccd.tictactoe.player.Player;
 import de.hse.mse.ccd.tictactoe.player.PlayerSymbol;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class TicTacToeGameTest {
 
-  @Mock
-  Board board;
-  @Mock
-  WinChecker winChecker;
-  @Mock
-  Player playerA;
-  @Mock
-  Player playerB;
+  Board board = mock(Board.class);
+  WinChecker winChecker = mock(WinChecker.class);
+  Player playerA = mock(Player.class);
+  Player playerB = mock(Player.class);
 
-  @InjectMocks
-  TicTacToeGame ticTacToeGame;
+  TicTacToeGame ticTacToeGame = new TicTacToeGame(playerA, playerB, board, winChecker);
 
   @Test
   void play() {
