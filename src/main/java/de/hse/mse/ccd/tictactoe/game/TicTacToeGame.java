@@ -11,9 +11,9 @@ public class TicTacToeGame {
   private final Player playerA;
   private final Player playerB;
 
-  public TicTacToeGame(int boardSize, Player playerA, Player playerB) {
-    this.board = new Board(boardSize);
-    this.winChecker = new WinChecker();
+  public TicTacToeGame(Player playerA, Player playerB, Board board, WinChecker winChecker) {
+    this.board = board;
+    this.winChecker = winChecker;
     this.playerA = playerA;
     this.playerB = playerB;
   }

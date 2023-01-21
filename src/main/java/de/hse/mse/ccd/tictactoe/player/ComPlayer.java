@@ -7,10 +7,11 @@ import java.util.Random;
 
 public class ComPlayer extends Player {
   public static final int WAITING_TIME = 1;
-  private static final Random RANDOM = new Random();
+  private  final Random random;
 
-  public ComPlayer(PlayerSymbol symbol) {
+  public ComPlayer(PlayerSymbol symbol, Random random) {
     super(symbol);
+    this.random = random;
   }
 
   @Override
@@ -21,8 +22,8 @@ public class ComPlayer extends Player {
     int chosenCellX;
     int chosenCellY;
     do {
-      chosenCellX = RANDOM.nextInt(board.getSize());
-      chosenCellY = RANDOM.nextInt(board.getSize());
+      chosenCellX = random.nextInt(board.getSize());
+      chosenCellY = random.nextInt(board.getSize());
     } while (!board.isCellSelectable(new Point(chosenCellX, chosenCellY)));
 
     return new Point(chosenCellX, chosenCellY);
