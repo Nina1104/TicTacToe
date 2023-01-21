@@ -50,7 +50,7 @@ class ComPlayerTest {
     Point nextCellSelection = comPlayer.getNextCellSelection(board);
 
     verify(random, times(4)).nextInt(boardSize);
-    assertEquals(x, nextCellSelection.x);
-    assertEquals(y, nextCellSelection.y);
+    assertEquals(y, nextCellSelection.x);
+    assertEquals(x, nextCellSelection.y);
   }
 }
